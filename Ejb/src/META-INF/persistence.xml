@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="database" transaction-type="JTA">
+        <jta-data-source>jdbc/travelDream</jta-data-source>
+        <class>travelDream.entity.user.User</class>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="create"/>
+        </properties>
+    </persistence-unit>
+</persistence>

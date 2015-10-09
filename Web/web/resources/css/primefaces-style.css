@@ -1,0 +1,135 @@
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Thin.ttf']}");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-ExtraLight.ttf']}");
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Light.ttf']}");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Regular.ttf']}");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Medium.ttf']}");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-SemiBold.ttf']}");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Bold.ttf']}");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-ExtraBold.ttf']}");
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: TravelDream;
+    src: url("#{resource['/fonts/Raleway-Heavy.ttf']}");
+    font-weight: 900;
+    font-style: normal;
+}
+
+body {
+    margin: 0px !important;
+    padding: 0px !important;
+    font-family: TravelDream, "Helvetica Neue Light", "HelveticaNeue-Light", Arial, sans-serif !important;
+    font-weight: 300;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1, h2, h3, h4 {
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+    font-weight: 200;
+}
+
+.ui-widget{
+    font-family: TravelDream, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Arial,sans-serif !important;
+    font-size: 90% !important;
+}
+button { outline: none !important; }
+
+tr.notActive {
+    background-color: #EEEEEE !important;
+    color: #999999 !important;
+}
+
+tr.active {
+    background-color: #80CC99 !important;
+}
+
+.ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all.ui-helper-clearfix.ui-state-focus {
+    outline: none !important;
+}
+
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right.ui-state-focus {
+    outline: none !important;
+}
+
+.ui-message-error-icon {
+    visibility: hidden !important;
+    height: 0px !important;
+    width: 0px !important;
+}
+
+.ui-message-error-detail {
+    margin-left: 0px !important;
+}
+
+video#bgvid {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background: url("#{resource['/img/back3.jpg']}") no-repeat;
+    background-size: cover;
+}

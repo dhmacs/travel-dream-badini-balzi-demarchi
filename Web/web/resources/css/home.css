@@ -1,0 +1,27 @@
+#content-wrapper {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 5px 40px;
+    background-color: rgba(255,255,255, 0.75);
+}
+
+#title {
+    text-align: center;
+}
+
+#summary {
+    margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

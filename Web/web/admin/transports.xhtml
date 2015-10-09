@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+    <title>Transportations management</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="transports.css" />
+    </f:facet>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css" />
+    </f:facet>
+</h:head>
+<h:body>
+
+    <p:panel header="Transports" rendered="#{!TransportManagedBean.adding and !TransportManagedBean.editing}">
+        <h:form>
+            <p:dataTable var="item" value="#{TransportManagedBean.flightList}"
+                         rowStyleClass="#{item.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{item.id}" />
+                </p:column>
+
+                <p:column headerText="Departure place">
+                    <h:outputText value="#{item.departureCity.name}" />
+                </p:column>
+
+                <p:column headerText="Departure airport">
+                    <h:outputText value="#{item.departureAirport.name}" />
+                </p:column>
+
+                <p:column headerText="Departure">
+                    <h:outputText value="#{item.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Arrival place">
+                    <h:outputText value="#{item.arrivalCity.name}" />
+                </p:column>
+
+                <p:column headerText="Arrival airport">
+                    <h:outputText value="#{item.arrivalAirport.name}" />
+                </p:column>
+
+                <p:column headerText="Arrival">
+                    <h:outputText value="#{item.arrival}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Price">
+                    <h:outputText value="#{item.price}" />
+                </p:column>
+
+                <p:column headerText="Airline">
+                    <h:outputText value="#{item.airline}" />
+                </p:column>
+
+                <p:column headerText="Flight number">
+                    <h:outputText value="#{item.flightNumber}" />
+                </p:column>
+
+                <p:column>
+                    <p:commandButton action="#{TransportManagedBean.edit(item)}"
+                                     ajax="false" title="Edit" icon="ui-icon-pencil"/>
+                    <p:commandButton action="#{TransportManagedBean.delete(item)}"
+                                     title="Delete" icon="ui-icon-trash" ajax="false"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton value="add" action="#{TransportManagedBean.add}" ajax="false" styleClass="ui-priority-primary"/>
+        </h:form>
+    </p:panel>
+    <h:panelGrid columns="1" rendered="#{!TransportManagedBean.adding and !TransportManagedBean.editing}">
+        <h:link value="Back to basic product management" outcome="basicProductManagement"/>
+        <h:link value="Back to home" outcome="home"/>
+    </h:panelGrid>
+
+    <h:form id="transport" rendered="#{TransportManagedBean.adding or TransportManagedBean.editing}">
+
+        <p:panel header="Flight">
+            <h:panelGrid columns="3" cellpadding="5">
+
+                <h:outputText value="Departure airport: "/>
+                <p:selectOneMenu id="departureAirport" disabled="#{TransportManagedBean.editing}"
+                                 value="#{TransportManagedBean.flightDto.departureAirport}"
+                                 converter="omnifaces.SelectItemsConverter"
+                                 panelStyle="width:150px" effect="fade" var="p" style="width:160px"  filter="true" filterMatchMode="contains">
+                    <f:selectItem rendered="#{TransportManagedBean.editing}"
+                                  itemLabel="#{TransportManagedBean.flightDto.departureAirport.name}"
+                                  itemValue="#{TransportManagedBean.getAirport(TransportManagedBean.flightDto.departureAirport.id)}"/>
+                    <f:selectItem rendered="#{TransportManagedBean.adding}"
+                                  itemLabel="Select"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{TransportManagedBean.airportList}"
+                                   var="airport" itemLabel="#{airport.name} (#{airport.city.name})"
+                                   itemValue="#{airport}"/>
+                    <p:column rendered="#{p != null}">
+                        #{p.name} (#{p.city.name})
+                    </p:column>
+                </p:selectOneMenu>
+                <p:message for="departureAirport"/>
+
+                <h:outputText value="Departure: "/>
+                <p:calendar id="departure"
+                            disabled="#{TransportManagedBean.editing}"
+                            value="#{TransportManagedBean.flightDto.departure}"
+                            pattern="MM/dd/yyyy HH:mm" locale="it" type="both" timeZone="EDT"/>
+                <p:message for="departure"/>
+
+                <h:outputText value="Arrival airport: "/>
+                <p:selectOneMenu id="arrivalAirport"
+                                 disabled="#{TransportManagedBean.editing}"
+                                 value="#{TransportManagedBean.flightDto.arrivalAirport}"
+                                 converter="omnifaces.SelectItemsConverter"
+                                 panelStyle="width:150px" effect="fade" var="p" style="width:160px"  filter="true" filterMatchMode="contains">
+                    <f:selectItem rendered="#{TransportManagedBean.editing}"
+                                  itemLabel="#{TransportManagedBean.flightDto.arrivalAirport.name}"
+                                  itemValue="#{TransportManagedBean.getAirport(TransportManagedBean.flightDto.arrivalAirport.id)}"/>
+                    <f:selectItem rendered="#{TransportManagedBean.adding}"
+                                  itemLabel="Select"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{TransportManagedBean.airportList}"
+                                   var="airport" itemLabel="#{airport.name} (#{airport.city.name})"
+                                   itemValue="#{airport}"/>
+                    <p:column rendered="#{p != null}">
+                        #{p.name} (#{p.city.name})
+                    </p:column>
+                </p:selectOneMenu>
+                <p:message for="arrivalAirport"/>
+
+                <h:outputText value="Arrival: "/>
+                <p:calendar id="arrival"
+                            disabled="#{TransportManagedBean.editing}"
+                            value="#{TransportManagedBean.flightDto.arrival}"
+                            pattern="MM/dd/yyyy HH:mm" locale="it" type="both" timeZone="EDT"/>
+                <p:message for="arrival"/>
+
+                <h:outputText value="Price: "/>
+                <p:inputText id="price" value="#{TransportManagedBean.flightDto.price}"/>
+                <p:message for="price"/>
+
+                <h:outputText value="Flight number: " />
+                <p:inputText id="flightNumber" value="#{TransportManagedBean.flightDto.flightNumber}"/>
+                <p:message for="flightNumber"/>
+
+                <h:outputText value="Airline: " />
+                <p:inputText id = "airline" value="#{TransportManagedBean.flightDto.airline}"/>
+                <p:message for="airline"/>
+
+                <h:outputText value="Is active: " />
+                <p:selectBooleanCheckbox value="#{TransportManagedBean.flightDto.active}"/>
+                <p:column/>
+
+                <p:commandButton value="cancel" action="#{TransportManagedBean.cancel}" immediate="true" ajax="false"/>
+                <p:commandButton rendered="#{TransportManagedBean.adding}" value="create" ajax="false" action="#{TransportManagedBean.create}" styleClass="ui-priority-primary"/>
+                <p:commandButton rendered="#{TransportManagedBean.editing}" value="save" ajax="false" action="#{TransportManagedBean.save}" styleClass="ui-priority-primary"/>
+
+            </h:panelGrid>
+        </p:panel>
+
+    </h:form>
+</h:body>
+
+</html>

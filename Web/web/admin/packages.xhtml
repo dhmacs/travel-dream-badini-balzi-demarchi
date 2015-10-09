@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+    <title>Packages management</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css" />
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Packages" rendered="#{!PackageManagedBean.adding and !PackageManagedBean.editing}">
+        <h:form>
+            <p:dataTable value="#{PackageManagedBean.packageList}" var="package"
+                         rowStyleClass="#{package.active ? 'active' : 'notActive'}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{package.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{package.name}"/>
+                </p:column>
+                <p:column headerText="Place">
+                    <h:outputText value="#{package.city.name}"/>
+                </p:column>
+                <p:column headerText="Duration">
+                    <h:outputText value="#{package.duration}"/>
+                </p:column>
+                <p:column headerText="Number of participants">
+                    <h:outputText value="#{package.numberOfParticipants}"/>
+                </p:column>
+                <p:column headerText="Leaving flights">
+                    <p:button outcome="leavingTransports"
+                            icon="ui-icon-wrench">
+                        <f:param name="packageID" value="#{package.id}"/>
+                    </p:button>
+                </p:column>
+                <p:column headerText="Return flights">
+                    <p:button outcome="returnTransports"
+                              icon="ui-icon-wrench">
+                        <f:param name="packageID" value="#{package.id}"/>
+                    </p:button>
+                </p:column>
+                <p:column headerText="Hotels">
+                    <p:button outcome="availableHotels"
+                              icon="ui-icon-wrench">
+                        <f:param name="packageID" value="#{package.id}"/>
+                    </p:button>
+                </p:column>
+                <p:column headerText="Excursions">
+                    <p:button outcome="availableExcursions"
+                              icon="ui-icon-wrench">
+                        <f:param name="packageID" value="#{package.id}"/>
+                    </p:button>
+                </p:column>
+                <p:column>
+                    <p:commandButton title="edit" action="#{PackageManagedBean.edit(package)}" ajax="false" icon="ui-icon-pencil"/>
+                    <p:commandButton title="delete" action="#{PackageManagedBean.delete(package)}" ajax="false" icon="ui-icon-trash"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="add" action="#{PackageManagedBean.add()}" ajax="false" styleClass="ui-priority-primary"/>
+        </h:form>
+    </p:panel>
+    <h:panelGrid columns="1" rendered="#{!PackageManagedBean.adding and !PackageManagedBean.editing}">
+        <h:link value="Back to home" outcome="home"/>
+    </h:panelGrid>
+
+    <h:form id = "createPackage" rendered="#{PackageManagedBean.adding or PackageManagedBean.editing}">
+        <p:panel header="Package">
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputText value="Is active: " />
+                <p:selectBooleanCheckbox value="#{PackageManagedBean.packageDto.active}"/>
+                <p:column/>
+
+                <h:outputText value="Name:"/>
+                <p:inputText id="name" value="#{PackageManagedBean.packageDto.name}"/>
+                <p:message for="name"/>
+
+                <h:outputText value="Description:"/>
+                <p:inputTextarea id = "description" value="#{PackageManagedBean.packageDto.description}"/>
+                <p:message for="description"/>
+
+                <h:outputText value="Duration:"/>
+                <p:inputText id="duration" value="#{PackageManagedBean.packageDto.duration}"/>
+                <p:message for="duration"/>
+
+                <h:outputText value="Number of participants:"/>
+                <p:inputText id="numberOfParticipants" value="#{PackageManagedBean.packageDto.numberOfParticipants}"/>
+                <p:message for="numberOfParticipants"/>
+
+                <h:outputText value="Destination:"/>
+                <p:selectOneMenu id="destination" disabled="#{PackageManagedBean.editing}"
+                                 value="#{PackageManagedBean.packageDto.city}"
+                                 converter="omnifaces.SelectItemsConverter"
+                                 panelStyle="width:150px" effect="fade" var="p" style="width:160px"  filter="true" filterMatchMode="startsWith">
+                    <f:selectItem rendered="#{PackageManagedBean.editing}"
+                                  itemLabel="#{PackageManagedBean.packageDto.city.name}"
+                                  itemValue="#{PackageManagedBean.getCity(PackageManagedBean.packageDto.city.id)}"/>
+                    <f:selectItem rendered="#{PackageManagedBean.adding}}"
+                                  itemLabel="Select"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{PackageManagedBean.cityList}" var="city" itemLabel="#{city.name}" itemValue="#{city}"/>
+                    <p:column rendered="#{p != null}">
+                        #{p.name}
+                    </p:column>
+                </p:selectOneMenu>
+                <p:message for="destination"/>
+
+                <p:commandButton value="cancel" ajax="false" immediate="true" action="#{PackageManagedBean.cancel}"/>
+                <p:commandButton rendered="#{PackageManagedBean.adding}" value="create" ajax="false" action="#{PackageManagedBean.create()}" styleClass="ui-priority-primary"/>
+                <p:commandButton rendered="#{PackageManagedBean.editing}" value="save" ajax="false" action="#{PackageManagedBean.save()}" styleClass="ui-priority-primary"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

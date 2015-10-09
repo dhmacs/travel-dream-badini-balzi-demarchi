@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Registration</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="login.css"/>
+    <h:outputStylesheet library="css" name="registration.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="index.js"/>
+
+    <div id="background"></div>
+    <div class="background-overlay"></div>
+
+    <div id="login-wrapper">
+        <div class="company">
+            <h1 id="logo">Travel Dream</h1>
+            <h3 id="incipit">Follow your dreams, travel with us!</h3>
+        </div>
+        <div class="hideOverflow">
+            <div class="outer">
+                <div class="inner">
+                    <h:form id="registration">
+                        <h:panelGrid columns="2" cellpadding="2">
+                            <p:inputText id="email" value="#{RegistrationManagedBean.userDto.email}" placeholder="email"/>
+                            <p:message for="email"/>
+
+                            <p:inputText id="firstName" value="#{RegistrationManagedBean.userDto.firstName}" placeholder="First name"/>
+                            <p:message for="firstName"/>
+
+                            <p:inputText id="lastName" value="#{RegistrationManagedBean.userDto.lastName}" placeholder="Last name"/>
+                            <p:message for="lastName"/>
+
+                            <p:password id="password" value="#{RegistrationManagedBean.userDto.password}"
+                            feedback="true" label="Password" placeholder="Password"/>
+                            <p:message for="password"/>
+
+                            <p:password id="confirmPassword" label="Confirm password"
+                            value="#{RegistrationManagedBean.userDto.confirmPassword}" placeholder="Confirm password"/>
+                        </h:panelGrid>
+                        <div class="registerButton">
+                            <p:commandButton value="Register" action="#{RegistrationManagedBean.register}"
+                                 styleClass="ui-priority-primary registerButton" ajax="false"/>
+                        </div>
+                        <div class="line"></div>
+                        <h:link value="Back to home" outcome="index"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

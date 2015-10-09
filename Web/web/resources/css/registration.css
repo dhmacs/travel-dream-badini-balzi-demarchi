@@ -1,0 +1,17 @@
+input[type="text"] {
+    width: 200px;
+}
+
+input[type="password"] {
+    width: 200px;
+}
+
+.registerButton {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#login-wrapper {
+    padding: 20px;
+    background-color: rgba(255,255,255, 0.75);
+}

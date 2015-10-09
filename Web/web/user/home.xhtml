@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>UserHome</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="home.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="generics.js"/>
+
+    <div id="background"></div>
+    <div class="background-overlay"></div>
+
+    <div>
+        <div id="menu-bar">
+            <div id="bar-logo">
+                <h:link outcome="home">
+                    <h1>TRAVEL DREAM</h1>
+                </h:link>
+            </div>
+            <div class="user-info">
+                <h:link value="#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName}"
+                        outcome="personalPage"
+                        styleClass="username"/>
+                <div class="separator">|</div>
+                <h:form>
+
+                    <p:commandLink action="#{LoginManagedBean.logout}" ajax="false" styleClass="logout">
+                        <h:outputText value="logout" />
+                    </p:commandLink>
+                </h:form>
+
+            </div>
+        </div>
+
+        <div id="content-wrapper">
+            <h1 id="title">Our travel solutions</h1>
+            <p id="summary">Choose your destination and check out our offers. You will find the best travel solution
+            for you and your travel mate!</p>
+            <h:form>
+                <p:dataTable id="dataTable" var="package" value="#{UserManagedBean.packageList}"
+                             widgetVar="packagesTable"
+                             emptyMessage="No packages found with given criteria"
+                             filteredValue="#{UserManagedBean.filteredPackageList}">
+
+                    <p:column id="nameColumn" filterBy="name" headerText="Name" filterMatchMode="contains">
+                        <h:outputText value="#{package.name}"/>
+                    </p:column>
+
+                    <p:column id="descriptionColumn" headerText="Description">
+                        <h:outputText value="#{package.description}"/>
+                    </p:column>
+
+                    <p:column id="destinationColumn" filterBy="#{package.city.name}" headerText="Destination"
+                              filterMatchMode="startsWith">
+                        <h:outputText value="#{package.city.name}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:button value="select" outcome="customization">
+                            <f:param name="packageID" value="#{package.id}"/>
+                        </p:button>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+
+    </div>
+</h:body>
+</html>

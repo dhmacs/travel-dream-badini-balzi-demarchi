@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Customize travel package</title>
+</h:head>
+<h:body>
+
+<h:outputStylesheet library="css" name="primefaces-style.css"/>
+<h:outputStylesheet library="css" name="user-generics.css"/>
+<h:outputStylesheet library="css" name="package.css"/>
+
+<h:outputScript library="javascript" name="jQuery.js"/>
+<h:outputScript library="javascript" name="generics.js"/>
+
+<div id="background"></div>
+<div class="background-overlay"></div>
+
+<div id="menu-bar">
+    <div id="bar-logo">
+        <h:link outcome="home">
+            <h1>TRAVEL DREAM</h1>
+        </h:link>
+    </div>
+    <div class="user-info">
+        <h:link value="#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName}"
+                outcome="personalPage"
+                styleClass="username"/>
+
+        <div class="separator">|</div>
+        <h:form>
+
+            <p:commandLink action="#{LoginManagedBean.logout}" ajax="false" styleClass="logout">
+                <h:outputText value="logout"/>
+            </p:commandLink>
+        </h:form>
+
+    </div>
+</div>
+
+<div id="wrapper">
+
+<ui:fragment rendered="#{!PurchaseManagedBean.purchased}">
+    <div id="package-general-info">
+        <div>
+            <div id="package-name">
+                <h3>#{PurchaseManagedBean.packageDto.name}</h3>
+            </div>
+            <div id="package-destination">
+                <h3>#{PurchaseManagedBean.packageDto.city.name}</h3>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div id="package-description">
+            <p>#{PurchaseManagedBean.packageDto.description}</p>
+        </div>
+        <div class="line"></div>
+        <div>
+            <div id="package-duration">
+                <p>Duration: #{PurchaseManagedBean.packageDto.duration} days</p>
+            </div>
+            <div id="package-partecipants-number">
+                <p>Partecipants: #{PurchaseManagedBean.packageDto.numberOfParticipants}</p>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div>
+            <h:link value="home" outcome="home" styleClass="back-to-home"/>
+        </div>
+    </div>
+</ui:fragment>
+
+<o:form includeRequestParams="true"
+        rendered="#{!PurchaseManagedBean.summary and  !PurchaseManagedBean.shared and !PurchaseManagedBean.purchased}">
+
+    <div class="products-wrapper">
+
+        <h:form rendered="#{PurchaseManagedBean.customPackageDto.leavingFlight==null}">
+            <div class="phase-title">
+                <h2>Choose the leaving flight</h2>
+            </div>
+            <p:dataTable value="#{PurchaseManagedBean.filteredLeavingTransports}" var="leavingFlight">
+                <p:column headerText="Airline">
+                    <h:outputText value="#{leavingFlight.airline}"/>
+                </p:column>
+                <p:column headerText="Departure">
+                    <h:outputText value="#{leavingFlight.departureAirport.name} (#{leavingFlight.departureCity.name})"/>
+                </p:column>
+                <p:column headerText="Departure time">
+                    <h:outputText value="#{leavingFlight.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Arrival">
+                    <h:outputText value="#{leavingFlight.arrivalAirport.name} (#{leavingFlight.arrivalCity.name})"/>
+                </p:column>
+                <p:column headerText="Arrival time">
+                    <h:outputText value="#{leavingFlight.arrival}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{leavingFlight.price}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="select" action="#{PurchaseManagedBean.addLeavingTransport(leavingFlight)}"
+                                     ajax="false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <h:form rendered="#{PurchaseManagedBean.customPackageDto.leavingFlight!=null and PurchaseManagedBean.customPackageDto.returningFlight==null}">
+            <div class="phase-title">
+                <h2>Choose the returning flight</h2>
+            </div>
+            <p:dataTable value="#{PurchaseManagedBean.filteredReturningTransports}" var="returningFlight">
+                <p:column headerText="Airline">
+                    <h:outputText value="#{returningFlight.airline}"/>
+                </p:column>
+                <p:column headerText="Departure">
+                    <h:outputText
+                            value="#{returningFlight.departureAirport.name} (#{returningFlight.departureCity.name})"/>
+                </p:column>
+                <p:column headerText="Departure time">
+                    <h:outputText value="#{returningFlight.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Arrival">
+                    <h:outputText value="#{returningFlight.arrivalAirport.name} (#{returningFlight.arrivalCity.name})"/>
+                </p:column>
+                <p:column headerText="Arrival time">
+                    <h:outputText value="#{returningFlight.arrival}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{returningFlight.price}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="select"
+                                     action="#{PurchaseManagedBean.addReturningTransport(returningFlight)}"
+                                     ajax="false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+        <h:form rendered="#{PurchaseManagedBean.customPackageDto.returningFlight!=null and PurchaseManagedBean.customPackageDto.accomodation==null}">
+            <div class="phase-title">
+                <h2>Choose accomodation</h2>
+            </div>
+            <p:dataTable value="#{PurchaseManagedBean.filteredAccommodations}" var="hotel">
+                <p:column headerText="Name">
+                    <h:outputText value="#{hotel.name}"/>
+                </p:column>
+                <p:column headerText="City">
+                    <h:outputText value="#{hotel.cityDto.name}"/>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{hotel.price}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="select" action="#{PurchaseManagedBean.addAccommodation(hotel)}"
+                                     ajax="false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+        <h:form rendered="#{PurchaseManagedBean.customPackageDto.accomodation!=null and PurchaseManagedBean.customPackageDto.excursion==null}">
+            <div class="phase-title">
+                <h2>Choose excursion</h2>
+                <p:commandButton value="skip" action="#{PurchaseManagedBean.showSummary()}" ajax="false"/>
+            </div>
+            <p:dataTable value="#{PurchaseManagedBean.filteredExcursions}" var="excursion"
+                         rendered="#{PurchaseManagedBean.customPackageDto.accomodation!=null and PurchaseManagedBean.customPackageDto.excursion==null}">
+                <p:column headerText="Name">
+                    <h:outputText value="#{excursion.name}"/>
+                </p:column>
+                <p:column headerText="Place">
+                    <h:outputText value="#{excursion.city.name}"/>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{excursion.price}"/>
+                </p:column>
+                <p:column headerText="Starting Time">
+                    <h:outputText value="#{excursion.startingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Ending Time">
+                    <h:outputText value="#{excursion.endingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="add" action="#{PurchaseManagedBean.addExcursion(excursion)}" ajax="false"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </div>
+
+</o:form>
+
+<o:form includeRequestParams="true" rendered="#{PurchaseManagedBean.summary}">
+    <div class="products-summary-wrapper">
+        <div class="summary-block">
+            <div class="product-title summary-line">
+                <h3>Leaving flight</h3>
+            </div>
+            <div class="summary-line">
+                <p>Flight number: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.flightNumber}</span>
+                </p>
+
+                <p class="right">Airline: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.airline}</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p>Daparture: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.departure}</span>
+                </p>
+
+                <p class="right">from: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.departureAirport.name} (#{PurchaseManagedBean.customPackageDto.leavingFlight.departureCity.name})</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p>arriving: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.arrival}</span>
+                </p>
+
+                <p class="right">to: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.leavingFlight.arrivalAirport.name} (#{PurchaseManagedBean.customPackageDto.leavingFlight.arrivalCity.name})</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p class="right">Price: <span
+                        class="highlighted-info price">$#{PurchaseManagedBean.customPackageDto.leavingFlight.price}</span>
+                </p>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="summary-block">
+            <div class="product-title summary-line">
+                <h3>Returning flight</h3>
+            </div>
+            <div class="summary-line">
+                <p>Flight number: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.flightNumber}</span>
+                </p>
+
+                <p class="right">Airline: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.airline}</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p>Daparture: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.departure}</span>
+                </p>
+
+                <p class="right">from: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.departureAirport.name} (#{PurchaseManagedBean.customPackageDto.returningFlight.departureCity.name})</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p>arriving: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.arrival}</span>
+                </p>
+
+                <p class="right">to: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.returningFlight.arrivalAirport.name} (#{PurchaseManagedBean.customPackageDto.returningFlight.arrivalCity.name})</span>
+                </p>
+            </div>
+            <div class="summary-line">
+                <p class="right">Price: <span
+                        class="highlighted-info price">$#{PurchaseManagedBean.customPackageDto.returningFlight.price}</span>
+                </p>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="summary-block">
+            <div class="product-title summary-line">
+                <h3>Accomodation</h3>
+            </div>
+            <div class="summary-line">
+                <p>Hotel name: <span
+                        class="highlighted-info">#{PurchaseManagedBean.customPackageDto.accomodation.name}</span></p>
+            </div>
+            <div class="summary-line">
+                <p>#{PurchaseManagedBean.customPackageDto.accomodation.description}</p>
+            </div>
+            <div class="summary-line">
+                <p class="right">Price: <span
+                        class="highlighted-info price">$#{PurchaseManagedBean.customPackageDto.accomodation.price}</span>
+                </p>
+            </div>
+        </div>
+        <div class="line"></div>
+        <ui:fragment rendered="#{PurchaseManagedBean.customPackageDto.excursion != null}">
+            <div class="summary-block">
+                <div class="product-title summary-line">
+                    <h3>Excursion</h3>
+                </div>
+                <div class="summary-line">
+                    <p>Excursion name: <span
+                            class="highlighted-info">#{PurchaseManagedBean.customPackageDto.excursion.name}</span></p>
+                </div>
+                <div class="summary-line">
+                    <p>#{PurchaseManagedBean.customPackageDto.excursion.description}</p>
+                </div>
+                <div class="summary-line">
+                    <p class="right">Price: <span
+                            class="highlighted-info price">$#{PurchaseManagedBean.customPackageDto.excursion.price}</span>
+                    </p>
+                </div>
+            </div>
+        </ui:fragment>
+        <div class="line"></div>
+        <div class="summary-block">
+            <div class="summary-line">
+                <p class="right">Total: <span
+                        class="highlighted-info price">$#{PurchaseManagedBean.calculatePrice()}</span>
+                </p>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="summary-block">
+            <div class="summary-line">
+                <p:commandButton value="add to gift list" action="#{PurchaseManagedBean.addToGiftList()}" ajax="false"
+                                 styleClass="ui-priority-primary"/>
+                <p:commandButton value="share" type="button" styleClass="ui-priority-primary share-package-button"/>
+                <p:commandButton value="purchase" action="#{PurchaseManagedBean.purchase()}" ajax="false"
+                                 styleClass="ui-priority-primary"/>
+            </div>
+        </div>
+    </div>
+
+</o:form>
+
+<o:form includeRequestParams="true" rendered="#{PurchaseManagedBean.purchased}">
+    <div class="payment-confirmation white-box">
+        <div class="fill-width">
+            <p class="confirm-message">Payment succesfully completed!</p>
+        </div>
+        <div class="fill-width">
+            <p:commandButton value="share" type="button" styleClass="ui-priority-primary share-package-button"/>
+            <p:button value="continue" outcome="home"/>
+        </div>
+    </div>
+</o:form>
+
+
+<div id="share-dialog-box">
+    <div>
+        <h3>Share with friends</h3>
+    </div>
+    <div>
+        <h:form>
+            <div class="fill-width">
+                <p:inputText id="friend-email" binding="#{emailAddress}" placeholder="email"/>
+            </div>
+            <p:commandButton value="cancel" type="button" id="cancel-share-package-button"/>
+            <p:commandButton value="send invitation" action="#{PurchaseManagedBean.share(emailAddress.value)}"
+                             id="confirm-share-package-button" styleClass="ui-priority-primary"/>
+        </h:form>
+    </div>
+
+</div>
+
+</div>
+</h:body>
+</html>

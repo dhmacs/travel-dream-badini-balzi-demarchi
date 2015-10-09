@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Index</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="index.css" />
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="login.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="index.js"/>
+    <h:outputScript library="javascript" name="generics.js"/>
+
+
+    <!--<div id="background"></div>-->
+    <div class="background-overlay"></div>
+
+    <div id="login-wrapper">
+        <div id="login-content">
+            <div class="company">
+                <h1 id="logo">TRAVEL DREAM</h1>
+                <h4 id="incipit"><p:outputLabel value="Follow your dreams, travel with us!"
+                                                rendered="#{!LoginManagedBean.isAdmin}"/>
+                    <p:outputLabel value="Admin access" rendered="#{LoginManagedBean.isAdmin}"/>
+                </h4>
+            </div>
+            <div class="hideOverflow">
+                <div class="outer">
+                    <div class="inner">
+                        <h:form id="login">
+                            <h:panelGrid columns="3" cellpadding="5">
+                                <p:inputText id="email" value="#{LoginManagedBean.email}" placeholder="email"/>
+                                <p:password id="password" value="#{LoginManagedBean.password}" placeholder="password"/>
+                                <p:commandButton id="submit" value="Login" ajax="false"
+                                     styleClass="ui-priority-primary" action="#{LoginManagedBean.login}"/>
+                                <p:message for="email"/>
+                                <p:message for="password"/>
+                            </h:panelGrid>
+                        </h:form>
+                        <div class="line"></div>
+                        <div>
+                            <ui:fragment rendered="#{!LoginManagedBean.isAdmin}">
+                            <p class="register">Not registered? <h:link value="Register" outcome="registration"/></p>
+                            <h:form styleClass="adminaccess">
+                                <p:commandLink action="#{LoginManagedBean.adminAccess()}" ajax="false">
+                                    <h:outputText value="Reserved area" />
+                                </p:commandLink>
+                            </h:form>
+                            </ui:fragment>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ui:fragment rendered="#{!LoginManagedBean.isAdmin}">
+    <video autoplay="autoplay" loop="loop" id="bgvid" muted="muted">
+        <source src="#{resource['/video/backvideo.webm']}" type="video/webm"/>
+        <source src="#{resource['/video/backvideo.mp4']}" type="video/mp4"/>
+    </video>
+    </ui:fragment>
+</h:body>
+</html>

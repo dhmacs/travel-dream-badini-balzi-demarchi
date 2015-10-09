@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Add leaving transports</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Selected flights">
+        <p:messages showDetail="true"/>
+        <o:form includeRequestParams="true">
+            <p:dataTable value="#{LeavingTransportManagedBean.packageDto.leavingFlights}" var="flight"
+                         widgetVar="selectedFlights" emptyMessage="No flights inserted"
+                         filteredValue="#{LeavingTransportManagedBean.selectedFlightsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{flight.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Flight number" sortBy="flightNumber">
+                    <h:outputText value="#{flight.flightNumber}"/>
+                </p:column>
+
+                <p:column headerText="Departure place" sortBy="departureCity.name"
+                          filterBy="departureCity.name" filterMatchMode="contains">
+                    <h:outputText value="#{flight.departureCity.name}"/>
+                </p:column>
+
+                <p:column headerText="Departure airport" sortBy="departureAirport.name"
+                          filterMatchMode="contains" filterBy="departureAirport.name">
+                    <h:outputText value="#{flight.departureAirport.name}"/>
+                </p:column>
+
+                <p:column headerText="Departure" sortBy="departure">
+                    <h:outputText value="#{flight.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Arrival place">
+                    <h:outputText value="#{flight.arrivalCity.name}"/>
+                </p:column>
+
+                <p:column headerText="Arrival airport" sortBy="arrivalAirport.name"
+                          filterBy="arrivalAirport.name" filterMatchMode="contains">
+                    <h:outputText value="#{flight.arrivalAirport.name}"/>
+                </p:column>
+
+                <p:column headerText="Arrival" sortBy="arrival">
+                    <h:outputText value="#{flight.arrival}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{flight.price}"/>
+                </p:column>
+
+                <p:column headerText="Airline" sortBy="airline"
+                          filterMatchMode="contains" filterBy="airline" >
+                    <h:outputText value="#{flight.airline}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton action="#{LeavingTransportManagedBean.delete(flight)}"
+                                     title="Delete" icon="ui-icon-trash" ajax="false">
+                        <f:param name="packageID" value="#{LeavingTransportManagedBean.packageDto.id}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </o:form>
+    </p:panel>
+
+
+    <p:panel header="Available flights">
+        <o:form includeRequestParams="true">
+            <p:dataTable id="availableFlights" var="availableFlight" value="#{LeavingTransportManagedBean.
+                    availableFlights}" widgetVar="availFlights" emptyMessage="No available flights"
+                         filteredValue="#{LeavingTransportManagedBean.availableFlightsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{availableFlight.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Flight number" sortBy="flightNumber">
+                    <h:outputText value="#{availableFlight.flightNumber}"/>
+                </p:column>
+
+                <p:column headerText="Departure place" sortBy="departureCity.name"
+                          filterBy="departureCity.name" filterMatchMode="contains">
+                    <h:outputText value="#{availableFlight.departureCity.name}"/>
+                </p:column>
+
+                <p:column headerText="Departure airport" sortBy="departureAirport.name"
+                          filterMatchMode="contains" filterBy="departureAirport.name">
+                    <h:outputText value="#{availableFlight.departureAirport.name}"/>
+                </p:column>
+
+                <p:column headerText="Departure" sortBy="departure">
+                    <h:outputText value="#{availableFlight.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Arrival place">
+                    <h:outputText value="#{availableFlight.arrivalCity.name}"/>
+                </p:column>
+
+                <p:column headerText="Arrival airport" sortBy="arrivalAirport.name"
+                          filterBy="arrivalAirport.name" filterMatchMode="contains">
+                    <h:outputText value="#{availableFlight.arrivalAirport.name}"/>
+                </p:column>
+
+                <p:column headerText="Arrival" sortBy="arrival">
+                    <h:outputText value="#{availableFlight.arrival}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{availableFlight.price}"/>
+                </p:column>
+
+                <p:column headerText="Airline" sortBy="airline"
+                          filterMatchMode="contains" filterBy="airline" >
+                    <h:outputText value="#{availableFlight.airline}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton action="#{LeavingTransportManagedBean.add(availableFlight)}"
+                                     value="add" ajax="false">
+                        <f:param name="packageID" value="#{LeavingTransportManagedBean.packageId}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </o:form>
+    </p:panel>
+    <h:panelGrid columns="1" rendered="#{!ExcursionManagedBean.adding and !ExcursionManagedBean.editing}">
+        <h:link value="Back to package management" outcome="packages"/>
+        <h:link value="Back to home" outcome="home"/>
+    </h:panelGrid>
+</h:body>
+</html>

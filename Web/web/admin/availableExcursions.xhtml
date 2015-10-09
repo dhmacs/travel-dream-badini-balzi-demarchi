@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Add available excursions</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Selected excursions">
+        <p:messages showDetail="true"/>
+        <o:form includeRequestParams="true">
+            <p:dataTable value="#{AvailableExcursionManagedBean.packageDto.excursions}" var="excursion"
+                         widgetVar="selectedExcursions" emptyMessage="No excursions inserted"
+                         filteredValue="#{AvailableExcursionManagedBean.selectedExcursionsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{excursion.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Name" sortBy="name"
+                          filterMatchMode="contains" filterBy="name">
+                    <h:outputText value="#{excursion.name}"/>
+                </p:column>
+
+                <p:column headerText="Place">
+                    <h:outputText value="#{excursion.city.name}"/>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{excursion.price}"/>
+                </p:column>
+
+                <p:column headerText="Starting Time" sortBy="startingHour">
+                    <h:outputText value="#{excursion.startingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Ending Time" sortBy="endingHour">
+                    <h:outputText value="#{excursion.endingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton title="delete" action="#{AvailableExcursionManagedBean.delete(excursion)}"
+                                     ajax="false" icon="ui-icon-trash">
+                        <f:param name="packageID" value="#{LeavingTransportManagedBean.packageDto.id}"/>
+                        </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+        </o:form>
+
+    </p:panel>
+
+    <p:panel header="Available excursions">
+        <o:form includeRequestParams="true">
+            <p:dataTable value="#{AvailableExcursionManagedBean.availableExcursions}" var="availableExcursion"
+                         widgetVar="availableExcursions" emptyMessage="No excursions available"
+                         filteredValue="#{AvailableExcursionManagedBean.availableExcursionsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{availableExcursion.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Name" sortBy="name"
+                          filterBy="name" filterMatchMode="contains">
+                    <h:outputText value="#{availableExcursion.name}"/>
+                </p:column>
+
+                <p:column headerText="Place">
+                    <h:outputText value="#{availableExcursion.city.name}"/>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{availableExcursion.price}"/>
+                </p:column>
+
+                <p:column headerText="Starting Time" sortBy="startingHour">
+                    <h:outputText value="#{availableExcursion.startingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Ending Time" sortBy="endingHour">
+                    <h:outputText value="#{availableExcursion.endingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton title="add" action="#{AvailableExcursionManagedBean.add(availableExcursion)}"
+                                     value="add" ajax="false">
+                        <f:param name="packageID" value="#{LeavingTransportManagedBean.packageDto.id}"/>
+                        </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+        </o:form>
+
+    </p:panel>
+    <h:panelGrid columns="1">
+        <h:link value="Back to package management" outcome="packages"/>
+        <h:link value="Back to home" outcome="home"/>
+    </h:panelGrid>
+</h:body>
+</html>

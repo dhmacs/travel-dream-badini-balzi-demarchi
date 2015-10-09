@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Package not found</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="package.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="generics.js"/>
+
+    <div id="background"></div>
+    <div class="background-overlay"></div>
+
+    <div id="menu-bar">
+        <div id="bar-logo">
+            <h:link outcome="home">
+                <h1>TRAVEL DREAM</h1>
+            </h:link>
+        </div>
+        <div class="user-info">
+            <h:link value="#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName}"
+                    outcome="personalPage"
+                    styleClass="username"/>
+
+            <div class="separator">|</div>
+            <h:form>
+
+                <p:commandLink action="#{LoginManagedBean.logout}" ajax="false" styleClass="logout">
+                    <h:outputText value="logout"/>
+                </p:commandLink>
+            </h:form>
+
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <p:panel>
+            <p:outputLabel value="Package not available"/>
+        </p:panel>
+    </div>
+
+</h:body>
+</html>

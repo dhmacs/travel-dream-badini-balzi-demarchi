@@ -1,0 +1,110 @@
+#package-general-info {
+    background-color: rgba(255,255,255,0.75);
+    padding: 10px;
+    width: 25%;
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#package-general-info > div {
+    display: block;
+    clear: both;
+    position: relative;
+    overflow: hidden;
+}
+
+#package-name {
+    float: left;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+#package-destination {
+    float: right;
+    font-size: 16px;
+    color: #009966;
+}
+
+#package-description {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+#package-duration {
+    float: left;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+#package-partecipants-number {
+    float: right;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.products-wrapper {
+    padding: 20px 5px;
+    background-color: rgba(255,255,255,0.75);
+    display: inline-block;
+    width: 70%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.phase-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.back-to-home {
+    float: left;
+}
+
+.products-summary-wrapper {
+    padding: 20px 5px;
+    background-color: rgba(255,255,255,0.75);
+    display: inline-block;
+    width: 70%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    overflow: hidden;
+}
+
+.summary-block {
+    display: block;
+    display: block;
+    clear: both;
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-line > * {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.highlighted-info {
+    font-weight: 400;
+}
+
+.right {
+    float: right;
+}
+
+.price {
+    color: #009966;
+}
+
+.payment-confirmation {
+    text-align: center;
+}
+
+.confirm-message {
+    color: #009966;
+}
+

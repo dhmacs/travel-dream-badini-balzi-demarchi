@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>UserHome</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="personal-page.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="generics.js"/>
+
+    <div id="background"></div>
+    <div class="background-overlay"></div>
+
+    <div id="menu-bar">
+        <div id="bar-logo">
+            <h:link outcome="home">
+                <h1>TRAVEL DREAM</h1>
+            </h:link>
+        </div>
+        <div id="search-user">
+            <h:form>
+                        <p:inputText id="keyword" value="#{SearchUserManagedBean.searchedUserEmail}"
+                                     placeholder="search user by email"
+                                styleClass="keyword"/>
+                        <p:commandButton actionListener="#{SearchUserManagedBean.searchUser()}" title="Search" ajax="false"
+                                         icon="ui-icon-search"/>
+                <p:messages showDetail="true" id="search-box-message"/>
+            </h:form>
+        </div>
+        <div class="user-info">
+            <h:link value="#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName}"
+                    outcome="personalPage"
+                    styleClass="username"/>
+            <div class="separator">|</div>
+            <h:form>
+                <p:commandLink action="#{LoginManagedBean.logout}" ajax="false" styleClass="logout">
+                    <h:outputText value="logout" />
+                </p:commandLink>
+            </h:form>
+
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <h:form rendered="#{!SearchUserManagedBean.searchingUser}">
+            <div class="user-general-info">
+                <div>
+                    <div class="user-name">
+                        <p>#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName}</p>
+                    </div>
+                    <div class="user-profile-picture">
+                        <img src="#{resource['img/fb-profile.jpeg']}" alt="#{UserManagedBean.currentUser.firstName} #{UserManagedBean.currentUser.lastName} profile image"/>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div>
+                    <h:link value="home" outcome="home"/>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form rendered="#{SearchUserManagedBean.searchingUser}">
+            <div class="user-general-info">
+                <div>
+                    <div class="user-name">
+                        <p>#{SearchUserManagedBean.searchedUser.firstName} #{SearchUserManagedBean.searchedUser.lastName}</p>
+                    </div>
+                    <div class="user-profile-picture">
+                        <img src="#{resource['img/fb-profile.jpeg']}" alt="#{SearchUserManagedBean.searchedUser.firstName} #{SearchUserManagedBean.searchedUser.lastName} profile image"/>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div>
+                    <h:link value="home" outcome="home"/>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="gift-wrapper">
+        <h:form rendered="#{!SearchUserManagedBean.searchingUser}">
+
+            <div class="gift-list-title">
+                <h2>Gift list</h2>
+            </div>
+                <p:dataTable value="#{UserManagedBean.giftList}" var="myGift"
+                             rowStyleClass="#{UserManagedBean.isClassCustomPackage(myGift)? 'active' : 'notActive'}">
+
+                    <p:column headerText="name">
+                        <h:outputText value="#{myGift.name}"/>
+                    </p:column>
+
+                    <p:column headerText="destination">
+                        <h:outputText value="#{myGift.city.name}"/>
+                    </p:column>
+
+                    <p:column headerText="starting date">
+                        <h:outputText value="#{myGift.leavingTransport.departure}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                               timeZone="EDT"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="duration">
+                        <h:outputText value="#{myGift.duration}"/>
+                    </p:column>
+
+                    <p:column headerText="accomodation">
+                        <h:outputText value="#{myGift.accomodation.name}"/>
+                    </p:column>
+
+                    <p:column headerText="excursion">
+                        <h:outputText value="#{myGift.excursion!=null ? myGift.excursion.name : 'none'}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton value="remove" action="#{UserManagedBean.removeFromGiftList(myGift)}"
+                                         ajax="false" rendered="#{UserManagedBean.isClassCustomPackage(myGift)}"/>
+                        <ui:fragment rendered="#{!UserManagedBean.isClassCustomPackage(myGift)}">
+                            <img src="#{resource['img/Gift-Box.png']}" class="gift-icon" alt="the package is gifted"/>
+                        </ui:fragment>
+                    </p:column>
+                </p:dataTable>
+
+        </h:form>
+
+
+        <h:form rendered="#{SearchUserManagedBean.searchingUser}">
+
+            <div class="gift-list-title">
+                <h2>Gift list</h2>
+            </div>
+            <p:dataTable value="#{SearchUserManagedBean.giftList}" var="gift"
+                         rowStyleClass="#{UserManagedBean.isClassCustomPackage(gift)? 'active' : 'notActive'}">
+
+                <p:column headerText="name">
+                    <h:outputText value="#{gift.name}"/>
+                </p:column>
+
+                <p:column headerText="destination">
+                    <h:outputText value="#{gift.city.name}"/>
+                </p:column>
+
+                <p:column headerText="starting date">
+                    <h:outputText value="#{gift.leavingTransport.departure}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" locale="it" type="both" dateStyle="short"
+                                           timeZone="EDT"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="duration">
+                    <h:outputText value="#{gift.duration}"/>
+                </p:column>
+
+                <p:column headerText="accomodation">
+                    <h:outputText value="#{gift.accomodation.name}"/>
+                </p:column>
+
+                <p:column headerText="excursion">
+                    <h:outputText value="#{gift.excursion!=null ? gift.excursion.name : 'none'}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="give" action="#{SearchUserManagedBean.giveGift(gift)}"
+                                     ajax="false" rendered="#{SearchUserManagedBean.isClassCustomPackage(gift)}"/>
+                    <ui:fragment rendered="#{!UserManagedBean.isClassCustomPackage(gift)}">
+                        <img src="#{resource['img/Gift-Box.png']}" class="gift-icon" alt="the package is gifted"/>
+                    </ui:fragment>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+        </div>
+
+    </div>
+
+</h:body>
+</html>

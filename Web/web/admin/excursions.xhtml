@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+<h:head>
+    <title>Excursions management</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css" />
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Excursions" rendered="#{!ExcursionManagedBean.adding and !ExcursionManagedBean.editing}">
+        <h:form>
+            <p:dataTable value="#{ExcursionManagedBean.excursionList}" var="excursion"
+                         rowStyleClass="#{excursion.active ? 'active' : 'notActive'}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{excursion.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{excursion.name}"/>
+                </p:column>
+                <p:column headerText="Place">
+                    <h:outputText value="#{excursion.city.name}"/>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{excursion.price}"/>
+                </p:column>
+                <p:column headerText="Starting Time">
+                    <h:outputText value="#{excursion.startingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Ending Time">
+                    <h:outputText value="#{excursion.endingHour}">
+                        <f:convertDateTime pattern="HH:mm" locale="it" type="both" dateStyle="short" timeZone="EDT" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton title="edit" action="#{ExcursionManagedBean.edit(excursion)}" ajax="false" icon="ui-icon-pencil"/>
+                    <p:commandButton title="delete" action="#{ExcursionManagedBean.delete(excursion)}" ajax="false" icon="ui-icon-trash"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="add" action="#{ExcursionManagedBean.add()}" ajax="false" styleClass="ui-priority-primary"/>
+        </h:form>
+    </p:panel>
+    <h:panelGrid columns="1" rendered="#{!ExcursionManagedBean.adding and !ExcursionManagedBean.editing}">
+        <h:link value="Back to basic product management" outcome="basicProductManagement"/>
+        <h:link value="Back to home" outcome="home"/>
+    </h:panelGrid>
+
+    <h:form id="customize" rendered="#{ExcursionManagedBean.adding or ExcursionManagedBean.editing}">
+        <p:panel header="Excursion">
+            <h:panelGrid columns="3" cellpadding="5">
+
+                <h:outputText value="Name:"/>
+                <p:inputText id="name" value="#{ExcursionManagedBean.excursionDto.name}"/>
+                <p:message for="name"/>
+
+                <h:outputText value="Description:"/>
+                <p:inputTextarea id="description" value="#{ExcursionManagedBean.excursionDto.description}"/>
+                <p:message for="description"/>
+
+                <h:outputText value="Price:"/>
+                <p:inputText id="price" value="#{ExcursionManagedBean.excursionDto.price}" label="price"/>
+                <p:message for="price"/>
+
+                <h:outputText value="Place:"/>
+                <p:selectOneMenu id="place"
+                                 disabled="#{ExcursionManagedBean.editing}"
+                                 value="#{ExcursionManagedBean.excursionDto.city}"
+                                 converter="omnifaces.SelectItemsConverter"
+                                 panelStyle="width:150px" effect="fade" var="p" style="width:160px"  filter="true" filterMatchMode="startsWith">
+                    <f:selectItem rendered="#{ExcursionManagedBean.editing}"
+                                  itemLabel="#{ExcursionManagedBean.excursionDto.city.name}"
+                                  itemValue="#{ExcursionManagedBean.getCity(ExcursionManagedBean.excursionDto.city.id)}"/>
+                    <f:selectItem rendered="#{ExcursionManagedBean.adding}"
+                                  itemLabel="Select"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{ExcursionManagedBean.cityList}" var="city" itemLabel="#{city.name}" itemValue="#{city}"/>
+                    <p:column rendered="#{p != null}">
+                        #{p.name}
+                    </p:column>
+                </p:selectOneMenu>
+                <p:message for="place"/>
+
+                <h:outputText value="Starting Time:"/>
+                <p:calendar id="startingTime" value="#{ExcursionManagedBean.excursionDto.startingHour}" pattern="HH:mm"
+                            timeOnly="true" locale="it" type="both" timeZone="EDT"/>
+                <p:message for="startingTime"/>
+
+                <h:outputText value="Ending Time:"/>
+                <p:calendar id="endingTime" value="#{ExcursionManagedBean.excursionDto.endingHour}" pattern="HH:mm"
+                            timeOnly="true" locale="it" type="both" timeZone="EDT"/>
+                <p:message for="endingTime"/>
+
+                <h:outputText value="Is active: " />
+                <p:selectBooleanCheckbox value="#{ExcursionManagedBean.excursionDto.active}"/>
+                <p:column/>
+
+                <p:commandButton value="cancel" ajax="false" immediate="true" action="#{ExcursionManagedBean.cancel()}"/>
+                <p:commandButton rendered="#{ExcursionManagedBean.adding}" value="create" ajax="false" action="#{ExcursionManagedBean.create()}" styleClass="ui-priority-primary"/>
+                <p:commandButton rendered="#{ExcursionManagedBean.editing}" value="save" ajax="false" action="#{ExcursionManagedBean.save()}" styleClass="ui-priority-primary"/>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>

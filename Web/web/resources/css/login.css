@@ -1,0 +1,29 @@
+#logo {
+    margin: 0px;
+    color: #000000;
+    font-weight: 100;
+}
+
+#incipit {
+    margin: 0px;
+    font-family: TravelDream, sans-serif;
+    color: #7b7b7b;
+}
+
+.hideOverflow {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.outer {
+    position: relative;
+    left: 50%;
+    float: left;
+}
+
+.inner {
+    position: relative;
+    left: -50%;
+    float: left;
+    overflow: visible;
+}

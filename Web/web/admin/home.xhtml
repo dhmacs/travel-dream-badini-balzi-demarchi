@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>adminHome</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css" />
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Admin home">
+        <h:panelGrid columns="1" cellpadding="5">
+            <h:link value="Basic product management" outcome="basicProductManagement"/>
+            <h:link value="Package management" outcome="packages"/>
+            <h:link value="User management" outcome="userManagement"/>
+            <h:form>
+                <p:commandButton value="Logout" action="#{LoginManagedBean.logout}" styleClass="ui-priority-primary"/>
+            </h:form>
+        </h:panelGrid>
+    </p:panel>
+</h:body>
+</html>

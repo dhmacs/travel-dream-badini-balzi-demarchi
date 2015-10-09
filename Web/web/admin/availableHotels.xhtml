@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Add available hotel</title>
+    <f:facet name="last">
+        <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    </f:facet>
+</h:head>
+<h:body>
+    <p:panel header="Selected hotels">
+        <p:messages showDetail="true"/>
+        <o:form includeRequestParams="true">
+            <p:dataTable var="hotel" value="#{AvailableHotelsManagedBean.packageDto.accomodations}"
+                         widgetVar="selectedHotel" emptyMessage="No hotels inserted"
+                         filteredValue="#{AvailableHotelsManagedBean.selectedHotelsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{hotel.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Name" filterMatchMode="contains" filterBy="name"
+                        sortBy="name">
+                    <h:outputText value="#{hotel.name}"/>
+                </p:column>
+
+                <p:column headerText="City">
+                    <h:outputText value="#{hotel.cityDto.name}"/>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{hotel.price}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton title="delete" action="#{AvailableHotelsManagedBean.delete(hotel)}"
+                                     icon="ui-icon-trash" ajax="false"/>
+                </p:column>
+
+            </p:dataTable>
+        </o:form>
+    </p:panel>
+
+
+    <p:panel header="Hotels">
+        <o:form includeRequestParams="true">
+            <p:dataTable var="availableHotel" value="#{AvailableHotelsManagedBean.availableHotels}"
+                         widgetVar="availableHotel" emptyMessage="No hotels available"
+                         filteredValue="#{AvailableHotelsManagedBean.availableHotelsFiltered}"
+                         sortMode="multiple" rows="25" paginator="true"
+                         rowStyleClass="#{availableHotel.active ? 'active' : 'notActive'}">
+
+                <p:column headerText="Name" filterMatchMode="contains" filterBy="name"
+                        sortBy="name">
+                    <h:outputText value="#{availableHotel.name}"/>
+                </p:column>
+
+                <p:column headerText="City">
+                    <h:outputText value="#{availableHotel.cityDto.name}"/>
+                </p:column>
+
+                <p:column headerText="Price" sortBy="price">
+                    <h:outputText value="#{availableHotel.price}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton title="add" action="#{AvailableHotelsManagedBean.add(availableHotel)}"
+                                     value="add" ajax="false"/>
+                </p:column>
+
+            </p:dataTable>
+        </o:form>
+    </p:panel>
+    <h:panelGrid columns="1">
+        <h:link value="Back to package management" outcome="/admin/packages"/>
+        <h:link value="Back to home" outcome="/admin/home"/>
+    </h:panelGrid>
+</h:body>
+</html>

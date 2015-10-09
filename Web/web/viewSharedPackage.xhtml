@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>viewPackage</title>
+</h:head>
+<h:body>
+
+    <h:outputStylesheet library="css" name="primefaces-style.css"/>
+    <h:outputStylesheet library="css" name="user-generics.css"/>
+    <h:outputStylesheet library="css" name="package.css"/>
+
+    <h:outputScript library="javascript" name="jQuery.js"/>
+    <h:outputScript library="javascript" name="generics.js"/>
+
+    <div id="background"></div>
+    <div class="background-overlay"></div>
+
+    <div id="menu-bar">
+        <div id="bar-logo">
+            <h:link outcome="index">
+                <h1>TRAVEL DREAM</h1>
+            </h:link>
+        </div>
+    </div>
+
+    <div id="wrapper">
+
+        <o:form includeRequestParams="true" rendered="#{JoinManagedBean.packageFound}">
+
+            <div id="package-general-info">
+                <div>
+                    <div id="package-name">
+                        <h3>#{JoinManagedBean.customPackageDto.name}</h3>
+                    </div>
+                    <div id="package-destination">
+                        <h3>#{JoinManagedBean.customPackageDto.city.name}</h3>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div id="package-description">
+                    <p>#{JoinManagedBean.customPackageDto.description}</p>
+                </div>
+                <div class="line"></div>
+                <div>
+                    <div id="package-duration">
+                        <p>Duration: #{JoinManagedBean.customPackageDto.duration} days</p>
+                    </div>
+                    <div id="package-partecipants-number">
+                        <p>Partecipants: #{JoinManagedBean.customPackageDto.numberOfParticipants}</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div>
+                    <h:link value="Login" outcome="index" styleClass="back-to-home"/>
+                </div>
+            </div>
+
+            <div class="products-summary-wrapper">
+                <div class="summary-block">
+                    <div class="product-title summary-line">
+                        <h3>Leaving flight</h3>
+                    </div>
+                    <div class="summary-line">
+                        <p>Flight number: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.flightNumber}</span>
+                        </p>
+
+                        <p class="right">Airline: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.airline}</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p>Daparture: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.departure}</span>
+                        </p>
+
+                        <p class="right">from: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.departureAirport.name} (#{JoinManagedBean.customPackageDto.leavingFlight.departureCity.name})</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p>arriving: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.arrival}</span>
+                        </p>
+
+                        <p class="right">to: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.leavingFlight.arrivalAirport.name} (#{JoinManagedBean.customPackageDto.leavingFlight.arrivalCity.name})</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p class="right">Price: <span
+                                class="highlighted-info price">$#{JoinManagedBean.customPackageDto.leavingFlight.price}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="summary-block">
+                    <div class="product-title summary-line">
+                        <h3>Returning flight</h3>
+                    </div>
+                    <div class="summary-line">
+                        <p>Flight number: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.flightNumber}</span>
+                        </p>
+
+                        <p class="right">Airline: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.airline}</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p>Daparture: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.departure}</span>
+                        </p>
+
+                        <p class="right">from: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.departureAirport.name} (#{JoinManagedBean.customPackageDto.returningFlight.departureCity.name})</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p>arriving: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.arrival}</span>
+                        </p>
+
+                        <p class="right">to: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.returningFlight.arrivalAirport.name} (#{JoinManagedBean.customPackageDto.returningFlight.arrivalCity.name})</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p class="right">Price: <span
+                                class="highlighted-info price">$#{JoinManagedBean.customPackageDto.returningFlight.price}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="summary-block">
+                    <div class="product-title summary-line">
+                        <h3>Accomodation</h3>
+                    </div>
+                    <div class="summary-line">
+                        <p>Hotel name: <span
+                                class="highlighted-info">#{JoinManagedBean.customPackageDto.accomodation.name}</span>
+                        </p>
+                    </div>
+                    <div class="summary-line">
+                        <p>#{JoinManagedBean.customPackageDto.description}</p>
+                    </div>
+                    <div class="summary-line">
+                        <p class="right">Price: <span
+                                class="highlighted-info price">$#{JoinManagedBean.customPackageDto.accomodation.price}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="summary-block">
+                    <div class="summary-line">
+                        <p class="right">Total: <span
+                                class="highlighted-info price">$#{JoinManagedBean.calculatePrice()}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="summary-block">
+                    <div class="summary-line">
+                        <p:button value="Join" outcome="/user/joinSharedPackage.xhtml" styleClass="ui-priority-primary">
+                            <f:param name="customPackageID" value="#{JoinManagedBean.customPackageDto.id}"/>
+                        </p:button>
+                    </div>
+                </div>
+            </div>
+        </o:form>
+        <p:panel rendered="#{!JoinManagedBean.packageFound}">
+            <p:outputLabel value="Package not found"/>
+        </p:panel>
+
+    </div>
+</h:body>
+</html>
